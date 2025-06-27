@@ -13,5 +13,8 @@ require __DIR__ . '/modulos/productos.php';
 require __DIR__ . '/modulos/marcas.php';
 require __DIR__ . '/modulos/medidas.php';
 require __DIR__ . '/modulos/provincias.php';
+require __DIR__ . '/modulos/condicion.php';
+
+
 
 

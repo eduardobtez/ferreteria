@@ -47,6 +47,7 @@
             <a href="{{ url('/marcas/crear') }}">Marcas</a>
             <a href="{{ url('/medidas/crear') }}">Medidas</a>
             <a href="{{ url('/provincias/crear') }}">Provincias</a>
+            <a href="{{ url('/condicion/crear') }}">Condiciones</a>
 
         </div>
         <div class="main-content w-100">
