@@ -42,6 +42,7 @@
             <h4>Ferretería</h4>
             <a href="/">Inicio</a>
             <a href="{{ url('/clientes/crear') }}">Clientes</a>
+            <a href="{{ url('/proveedores/crear') }}">Proveedores</a>
         </div>
         <div class="main-content w-100">
             @yield('contenido')

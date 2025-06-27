@@ -8,3 +8,5 @@ Route::get('/', function () {
 
 // Importar rutas del módulo clientes
 require __DIR__ . '/modulos/clientes.php';
+require __DIR__ . '/modulos/proveedores.php';
+
