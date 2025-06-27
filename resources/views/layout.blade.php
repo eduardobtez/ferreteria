@@ -41,7 +41,7 @@
         <div class="sidebar">
             <h4>Ferretería</h4>
             <a href="/">Inicio</a>
-            {{-- Agregar enlaces por módulo aquí --}}
+            <a href="{{ url('/clientes/crear') }}">Clientes</a>
         </div>
         <div class="main-content w-100">
             @yield('contenido')
