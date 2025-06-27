@@ -6,7 +6,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Importar rutas del módulo clientes
+// IRutas a los módulos
 require __DIR__ . '/modulos/clientes.php';
 require __DIR__ . '/modulos/proveedores.php';
+require __DIR__ . '/modulos/productos.php';
 

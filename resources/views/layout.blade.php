@@ -43,6 +43,8 @@
             <a href="/">Inicio</a>
             <a href="{{ url('/clientes/crear') }}">Clientes</a>
             <a href="{{ url('/proveedores/crear') }}">Proveedores</a>
+            <a href="{{ url('/productos/crear') }}">Productos</a>
+
         </div>
         <div class="main-content w-100">
             @yield('contenido')
