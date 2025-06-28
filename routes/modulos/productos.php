@@ -1,54 +1,92 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
-// Listar productos
-Route::get('/productos', function () {
-    $productos = DB::table('productos')
-        ->join('marcas', 'productos.marca', '=', 'marcas.id')
-        ->join('medidas', 'productos.medida', '=', 'medidas.id')
-        ->join('proveedores', 'productos.proveedor', '=', 'proveedores.id')
-        ->select(
-            'productos.*',
-            'marcas.marcas_descripcion as marca_desc',
-            'medidas.descripcion as medida_desc',
-            'medidas.abreviatura',
-            'proveedores.razonsocial as proveedor_desc'
-        )
-        ->get();
+Route::prefix('productos')->name('productos.')->group(function () {
 
-    return view('productos.index', compact('productos'));
-});
+    // Listar productos con joins para mostrar marcas, medidas y proveedores
+    Route::get('/', function () {
+        $productos = DB::table('productos')
+            ->join('marcas', 'productos.rela_marcas', '=', 'marcas.id_marcas')
+            ->join('medidas', 'productos.rela_medidas', '=', 'medidas.id_medida')
+            ->join('proveedores', 'productos.rela_proveedor', '=', 'proveedores.id_proveedores')
+            ->select(
+                'productos.*',
+                'marcas.marcas_descripcion',
+                'medidas.descripcion as medida_descripcion',
+                'medidas.abreviatura',
+                'proveedores.razon_social as proveedor_razon_social'
+            )
+            ->paginate(10);
+        return view('productos.index', compact('productos'));
+    })->name('index');
 
-// Formulario crear
-Route::get('/productos/crear', function () {
-    $marcas = DB::table('marcas')->get();
-    $medidas = DB::table('medidas')->where('activo', 1)->get();
-    $proveedores = DB::table('proveedores')->get();
-    return view('productos.crear', compact('marcas', 'medidas', 'proveedores'));
-});
+    // Mostrar formulario crear
+    Route::get('/create', function () {
+        $marcas = DB::table('marcas')->orderBy('marcas_descripcion')->get();
+        $medidas = DB::table('medidas')->where('activo', 1)->orderBy('descripcion')->get();
+        $proveedores = DB::table('proveedores')->orderBy('razon_social')->get();
 
-// Guardar producto
-Route::post('/productos', function (Request $request) {
-    $request->validate([
-        'descripcion' => 'required|string|max:255',
-        'marca' => 'required|integer',
-        'medida' => 'required|integer',
-        'cantidad' => 'required|integer|min:0',
-        'precios' => 'required|numeric|min:0',
-        'proveedor' => 'required|integer',
-    ]);
+        return view('productos.create', compact('marcas', 'medidas', 'proveedores'));
+    })->name('create');
 
-    DB::table('productos')->insert([
-        'descripcion' => $request->descripcion,
-        'marca' => $request->marca,
-        'medida' => $request->medida,
-        'cantidad' => $request->cantidad,
-        'precios' => $request->precios,
-        'proveedor' => $request->proveedor,
-    ]);
+    // Guardar producto
+    Route::post('/', function (Request $request) {
+        $validated = $request->validate([
+            'descripcion' => 'required|string|max:250',
+            'rela_marcas' => 'required|integer|exists:marcas,id_marcas',
+            'rela_medidas' => 'required|integer|exists:medidas,id_medida',
+            'cantidad_actual' => 'required|integer|min:0',
+            'precio_venta' => 'required|numeric|min:0',
+            'precio_compra' => 'required|numeric|min:0',
+            'porcentaje_utilidad' => 'required|numeric|min:0',
+            'rela_proveedor' => 'required|integer|exists:proveedores,id_proveedores',
+            'cantidad_minima' => 'required|integer|min:0',
+        ]);
 
-    return redirect('/productos')->with('success', 'Producto creado correctamente');
+        DB::table('productos')->insert($validated);
+
+        return redirect()->route('productos.index')->with('success', 'Producto creado correctamente.');
+    })->name('store');
+
+    // Mostrar formulario editar
+    Route::get('/{id}/edit', function ($id) {
+        $producto = DB::table('productos')->where('id_productos', $id)->first();
+        if (!$producto) {
+            abort(404);
+        }
+        $marcas = DB::table('marcas')->orderBy('marcas_descripcion')->get();
+        $medidas = DB::table('medidas')->where('activo', 1)->orderBy('descripcion')->get();
+        $proveedores = DB::table('proveedores')->orderBy('razon_social')->get();
+
+        return view('productos.edit', compact('producto', 'marcas', 'medidas', 'proveedores'));
+    })->name('edit');
+
+    // Actualizar producto
+    Route::put('/{id}', function (Request $request, $id) {
+        $validated = $request->validate([
+            'descripcion' => 'required|string|max:250',
+            'rela_marcas' => 'required|integer|exists:marcas,id_marcas',
+            'rela_medidas' => 'required|integer|exists:medidas,id_medida',
+            'cantidad_actual' => 'required|integer|min:0',
+            'precio_venta' => 'required|numeric|min:0',
+            'precio_compra' => 'required|numeric|min:0',
+            'porcentaje_utilidad' => 'required|numeric|min:0',
+            'rela_proveedor' => 'required|integer|exists:proveedores,id_proveedores',
+            'cantidad_minima' => 'required|integer|min:0',
+        ]);
+
+        DB::table('productos')->where('id_productos', $id)->update($validated);
+
+        return redirect()->route('productos.index')->with('success', 'Producto actualizado correctamente.');
+    })->name('update');
+
+    // Eliminar producto
+    Route::delete('/{id}', function ($id) {
+        DB::table('productos')->where('id_productos', $id)->delete();
+
+        return redirect()->route('productos.index')->with('success', 'Producto eliminado correctamente.');
+    })->name('destroy');
 });

@@ -1,0 +1,106 @@
+/* Fuente y estructura base */
+body {
+    font-family: 'Rubik', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    overflow-x: hidden;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Modo oscuro por defecto */
+body.dark-mode {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+/* Modo claro */
+body.light-mode {
+    background-color: #f8f9fa;
+    color: #212529;
+}
+
+/* Sidebar */
+#sidebar {
+    width: 220px;
+    background-color: #1f1f1f;
+    min-height: 100vh;
+    padding-top: 1rem;
+    position: fixed;
+    transition: background-color 0.3s;
+}
+
+body.light-mode #sidebar {
+    background-color: #e9ecef;
+}
+
+#sidebar .nav-link {
+    color: #cfcfcf;
+}
+
+body.light-mode #sidebar .nav-link {
+    color: #212529;
+}
+
+#sidebar .nav-link.active {
+    background-color: #3a3a3a;
+    color: #fff;
+    font-weight: 600;
+}
+
+body.light-mode #sidebar .nav-link.active {
+    background-color: #dee2e6;
+    color: #000;
+}
+
+#sidebar .nav-link:hover {
+    background-color: #333333;
+    color: white;
+}
+
+body.light-mode #sidebar .nav-link:hover {
+    background-color: #ced4da;
+    color: black;
+}
+
+/* Contenido principal */
+#content {
+    margin-left: 220px;
+    padding: 2rem;
+    width: 100%;
+}
+
+/* Scrollbar minimalista */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: #1f1f1f;
+}
+::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 3px;
+}
+
+/* Botón modo oscuro */
+#theme-toggle {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1000;
+    background: transparent;
+    border: none;
+    font-size: 1.4rem;
+    color: inherit;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+#theme-toggle:hover {
+    transform: scale(1.1);
+}
+
+#theme-toggle i {
+    transition: opacity 0.3s ease;
+}
+

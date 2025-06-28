@@ -1,56 +1,86 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
-// Listar clientes
-Route::get('/clientes', function () {
-    $clientes = DB::table('clientes')
-        ->join('provincias', 'clientes.provincia', '=', 'provincias.id')
-        ->join('condicion', 'clientes.condicioniva', '=', 'condicion.id')
-        ->select('clientes.*', 'provincias.descripcion as provincia_desc', 'condicion.descripcion as condicion_desc')
-        ->get();
+Route::prefix('clientes')->name('clientes.')->group(function () {
 
-    return view('clientes.index', compact('clientes'));
-});
+    // Listar clientes
+    Route::get('/', function () {
+        $clientes = DB::table('clientes')
+            ->join('provincias', 'clientes.rela_provincia', '=', 'provincias.id_provincia')
+            ->join('condicion', 'clientes.rela_condicioniva', '=', 'condicion.id_condicioniva')
+            ->select('clientes.*', 'provincias.descripcion as provincia', 'condicion.descripcion as condicioniva')
+            ->paginate(10);
+        return view('clientes.index', compact('clientes'));
+    })->name('index');
 
-// Formulario crear cliente
-Route::get('/clientes/crear', function () {
-    $provincias = DB::table('provincias')->get();
-    $condiciones = DB::table('condicion')->get();
-    return view('clientes.crear', compact('provincias', 'condiciones'));
-});
+    // Mostrar formulario crear
+    Route::get('/create', function () {
+        $provincias = DB::table('provincias')->orderBy('descripcion')->get();
+        $condiciones = DB::table('condicion')->orderBy('descripcion')->get();
+        return view('clientes.create', compact('provincias', 'condiciones'));
+    })->name('create');
 
-// Guardar cliente
-Route::post('/clientes', function (Request $request) {
-    $request->validate([
-        'nombre' => 'required|string|max:100',
-        'apellido' => 'required|string|max:100',
-        'dni' => 'required|digits:8|unique:clientes,dni',
-        'fechanacimiento' => 'required|date',
-        'provincia' => 'required|integer',
-        'localidad' => 'required|string|max:100',
-        'direccion' => 'required|string|max:255',
-        'cuit' => ['required', 'regex:/^[0-9]{2}-[0-9]{8}-[0-9]{1}$/', 'unique:clientes,cuit'],
-        'email' => 'required|email|max:100',
-        'telefono' => 'required|string|max:20',
-        'condicioniva' => 'required|integer',
-    ]);
+    // Guardar cliente
+    Route::post('/', function (Request $request) {
+        $validated = $request->validate([
+            'nombre' => 'required|string|max:250',
+            'apellido' => 'required|string|max:250',
+            'dni' => 'required|string|max:250',
+            'fechanacimiento' => 'required|date',
+            'rela_provincia' => 'required|integer|exists:provincias,id_provincia',
+            'localidad' => 'required|string|max:250',
+            'direccion' => 'required|string|max:250',
+            'cuit' => 'required|string|max:250',
+            'email' => 'required|email|max:250',
+            'telefono' => 'required|string|max:250',
+            'rela_condicioniva' => 'required|integer|exists:condicion,id_condicioniva',
+        ]);
 
-    DB::table('clientes')->insert([
-        'nombre' => $request->nombre,
-        'apellido' => $request->apellido,
-        'dni' => $request->dni,
-        'fechanacimiento' => $request->fechanacimiento,
-        'provincia' => $request->provincia,
-        'localidad' => $request->localidad,
-        'direccion' => $request->direccion,
-        'cuit' => $request->cuit,
-        'email' => $request->email,
-        'telefono' => $request->telefono,
-        'condicioniva' => $request->condicioniva,
-    ]);
+        DB::table('clientes')->insert($validated);
 
-    return redirect('/clientes')->with('success', 'Cliente creado correctamente');
+        return redirect()->route('clientes.index')->with('success', 'Cliente creado correctamente.');
+    })->name('store');
+
+    // Mostrar formulario editar
+    Route::get('/{id}/edit', function ($id) {
+        $cliente = DB::table('clientes')->where('id_clientes', $id)->first();
+        if (!$cliente) {
+            abort(404);
+        }
+        $provincias = DB::table('provincias')->orderBy('descripcion')->get();
+        $condiciones = DB::table('condicion')->orderBy('descripcion')->get();
+
+        return view('clientes.edit', compact('cliente', 'provincias', 'condiciones'));
+    })->name('edit');
+
+    // Actualizar cliente
+    Route::put('/{id}', function (Request $request, $id) {
+        $validated = $request->validate([
+            'nombre' => 'required|string|max:250',
+            'apellido' => 'required|string|max:250',
+            'dni' => 'required|string|max:250',
+            'fechanacimiento' => 'required|date',
+            'rela_provincia' => 'required|integer|exists:provincias,id_provincia',
+            'localidad' => 'required|string|max:250',
+            'direccion' => 'required|string|max:250',
+            'cuit' => 'required|string|max:250',
+            'email' => 'required|email|max:250',
+            'telefono' => 'required|string|max:250',
+            'rela_condicioniva' => 'required|integer|exists:condicion,id_condicioniva',
+        ]);
+
+        $updated = DB::table('clientes')->where('id_clientes', $id)->update($validated);
+
+        return redirect()->route('clientes.index')->with('success', 'Cliente actualizado correctamente.');
+    })->name('update');
+
+    // Eliminar cliente
+    Route::delete('/{id}', function ($id) {
+        DB::table('clientes')->where('id_clientes', $id)->delete();
+
+        return redirect()->route('clientes.index')->with('success', 'Cliente eliminado correctamente.');
+    })->name('destroy');
 });

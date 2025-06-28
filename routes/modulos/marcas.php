@@ -1,29 +1,57 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
-// Listar marcas
-Route::get('/marcas', function () {
-    $marcas = DB::table('marcas')->get();
-    return view('marcas.index', compact('marcas'));
-});
+Route::prefix('marcas')->name('marcas.')->group(function () {
 
-// Formulario crear marca
-Route::get('/marcas/crear', function () {
-    return view('marcas.crear');
-});
+    // Listar marcas
+    Route::get('/', function () {
+        $marcas = DB::table('marcas')->paginate(10);
+        return view('marcas.index', compact('marcas'));
+    })->name('index');
 
-// Guardar nueva marca
-Route::post('/marcas', function (Request $request) {
-    $request->validate([
-        'marcas_descripcion' => 'required|string|max:100|unique:marcas,marcas_descripcion',
-    ]);
+    // Formulario crear marca
+    Route::get('/create', function () {
+        return view('marcas.create');
+    })->name('create');
 
-    DB::table('marcas')->insert([
-        'marcas_descripcion' => $request->marcas_descripcion,
-    ]);
+    // Guardar marca
+    Route::post('/', function (Request $request) {
+        $validated = $request->validate([
+            'marcas_descripcion' => 'required|string|max:250',
+        ]);
 
-    return redirect('/marcas')->with('success', 'Marca creada correctamente');
+        DB::table('marcas')->insert($validated);
+
+        return redirect()->route('marcas.index')->with('success', 'Marca creada correctamente.');
+    })->name('store');
+
+    // Formulario editar marca
+    Route::get('/{id}/edit', function ($id) {
+        $marca = DB::table('marcas')->where('id_marcas', $id)->first();
+        if (!$marca) abort(404);
+
+        return view('marcas.edit', compact('marca'));
+    })->name('edit');
+
+    // Actualizar marca
+    Route::put('/{id}', function (Request $request, $id) {
+        $validated = $request->validate([
+            'marcas_descripcion' => 'required|string|max:250',
+        ]);
+
+        DB::table('marcas')->where('id_marcas', $id)->update($validated);
+
+        return redirect()->route('marcas.index')->with('success', 'Marca actualizada correctamente.');
+    })->name('update');
+
+    // Eliminar marca
+    Route::delete('/{id}', function ($id) {
+        DB::table('marcas')->where('id_marcas', $id)->delete();
+
+        return redirect()->route('marcas.index')->with('success', 'Marca eliminada correctamente.');
+    })->name('destroy');
+
 });
