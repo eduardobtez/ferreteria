@@ -62,4 +62,8 @@ Interfaz en modo oscuro por defecto, con opción para alternar modo claro/oscuro
 
 Uso de Git para control de versiones, con commits claros y organizados.
 
+<<<<<<< HEAD
 Código limpio, bien estructurado y fácilmente mantenible.
+=======
+Código limpio, bien estructurado y fácilmente mantenible.
+>>>>>>> 11e5b141a238a6212fa6cde89f334abb791a2b53

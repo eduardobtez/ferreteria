@@ -43,12 +43,12 @@
             <td>{{ $producto->cantidad_minima }}</td>
             <td>
                 <a href="{{ route('productos.edit', $producto->id_productos) }}" class="btn btn-sm btn-warning" title="Editar">
-                    <i class="bi bi-pencil-square"></i>
+                    <i class="bi bi-pencil-square"></i></a>
                 <form action="{{ route('productos.destroy', $producto->id_productos) }}" method="POST" class="d-inline" onsubmit="return confirm('¿Eliminar producto?');">
                     @csrf
                     @method('DELETE')
                     <button class="btn btn-sm btn-danger" type="submit" title="Eliminar">
-                        <i class="bi bi-trash"></i>
+                        <i class="bi bi-trash"></i></button>
                 </form>
             </td>
         </tr>
