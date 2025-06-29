@@ -20,7 +20,15 @@ Route::prefix('provincias')->name('provincias.')->group(function () {
     // Guardar provincia
     Route::post('/', function (Request $request) {
         $validated = $request->validate([
-            'descripcion' => 'required|string|max:250',
+            'descripcion' => [
+                'required',
+                'max:250',
+                'regex:/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/'
+            ],
+        ], [
+            'descripcion.required' => 'La descripción es obligatoria.',
+            'descripcion.max' => 'La descripción no debe superar los 250 caracteres.',
+            'descripcion.regex' => 'Solo se permiten letras y espacios.',
         ]);
 
         DB::table('provincias')->insert($validated);
@@ -39,7 +47,15 @@ Route::prefix('provincias')->name('provincias.')->group(function () {
     // Actualizar provincia
     Route::put('/{id}', function (Request $request, $id) {
         $validated = $request->validate([
-            'descripcion' => 'required|string|max:250',
+            'descripcion' => [
+                'required',
+                'max:250',
+                'regex:/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/'
+            ],
+        ], [
+            'descripcion.required' => 'La descripción es obligatoria.',
+            'descripcion.max' => 'La descripción no debe superar los 250 caracteres.',
+            'descripcion.regex' => 'Solo se permiten letras y espacios.',
         ]);
 
         DB::table('provincias')->where('id_provincia', $id)->update($validated);

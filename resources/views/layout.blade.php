@@ -29,7 +29,7 @@
 
     <!-- Sidebar de navegación -->
     <nav id="sidebar" class="d-flex flex-column">
-        <a href="{{ url('/') }}" class="nav-link mb-3 fs-4 text-center text-white fw-bold">Ferretería</a>
+        <a href="{{ url('/') }}" class="nav-link mb-3 text-center text-white">Panel de Control</a>
 
         <ul class="nav nav-pills flex-column mb-auto">
             <li class="nav-item">

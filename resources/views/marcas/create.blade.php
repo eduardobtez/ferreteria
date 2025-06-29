@@ -16,7 +16,9 @@
         @enderror
     </div>
 
-    <button type="submit" class="btn btn-success">Guardar</button>
-    <a href="{{ route('marcas.index') }}" class="btn btn-secondary">Cancelar</a>
+     <div class="btn-group-custom">
+        <button type="submit" class="btn btn-success">Guardar</button>
+        <a href="{{ route('marcas.index') }}" class="btn btn-secondary">Cancelar</a>
+    </div>
 </form>
 @endsection

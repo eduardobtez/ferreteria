@@ -20,7 +20,15 @@ Route::prefix('condicion')->name('condicion.')->group(function () {
     // Guardar condición
     Route::post('/', function (Request $request) {
         $validated = $request->validate([
-            'descripcion' => 'required|string|max:250',
+            'descripcion' => [
+                'required',
+                'max:250',
+                'regex:/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/'
+            ],
+        ], [
+            'descripcion.required' => 'La descripción es obligatoria.',
+            'descripcion.max' => 'La descripción no debe superar los 250 caracteres.',
+            'descripcion.regex' => 'Solo se permiten letras y espacios.',
         ]);
 
         DB::table('condicion')->insert($validated);
@@ -39,7 +47,15 @@ Route::prefix('condicion')->name('condicion.')->group(function () {
     // Actualizar condición
     Route::put('/{id}', function (Request $request, $id) {
         $validated = $request->validate([
-            'descripcion' => 'required|string|max:250',
+            'descripcion' => [
+                'required',
+                'max:250',
+                'regex:/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/'
+            ],
+        ], [
+            'descripcion.required' => 'La descripción es obligatoria.',
+            'descripcion.max' => 'La descripción no debe superar los 250 caracteres.',
+            'descripcion.regex' => 'Solo se permiten letras y espacios.',
         ]);
 
         DB::table('condicion')->where('id_condicioniva', $id)->update($validated);

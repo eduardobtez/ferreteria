@@ -5,14 +5,14 @@
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h2>Listado de Proveedores</h2>
-    <a href="{{ route('proveedores.create') }}" class="btn btn-primary">Nuevo Proveedor</a>
+    <a href="{{ route('proveedores.create') }}" class="btn btn-new-primary">Nuevo Proveedor</a>
 </div>
 
 @if(session('success'))
 <div class="alert alert-success">{{ session('success') }}</div>
 @endif
 
-<table class="table table-dark table-striped table-hover align-middle">
+<table class="custom-table table-striped table-hover align-middle">
     <thead>
         <tr>
             <th>ID</th>
@@ -34,11 +34,15 @@
             <td>{{ $proveedor->cuit }}</td>
             <td>{{ $proveedor->condicioniva }}</td>
             <td>
-                <a href="{{ route('proveedores.edit', $proveedor->id_proveedores) }}" class="btn btn-sm btn-warning">Editar</a>
+                <a href="{{ route('proveedores.edit', $proveedor->id_proveedores) }}" class="btn btn-sm btn-warning" title="Editar">
+                    <i class="bi bi-pencil-square"></i>
+                </a>
                 <form action="{{ route('proveedores.destroy', $proveedor->id_proveedores) }}" method="POST" class="d-inline" onsubmit="return confirm('¿Eliminar proveedor?');">
                     @csrf
                     @method('DELETE')
-                    <button class="btn btn-sm btn-danger" type="submit">Eliminar</button>
+                    <button class="btn btn-sm btn-danger" type="submit" title="Eliminar">
+                        <i class="bi bi-trash"></i>
+                    </button>
                 </form>
             </td>
         </tr>
@@ -54,3 +58,5 @@
     {{ $proveedores->links('pagination::bootstrap-5') }}
 </div>
 @endsection
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">

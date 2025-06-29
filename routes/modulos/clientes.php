@@ -26,17 +26,17 @@ Route::prefix('clientes')->name('clientes.')->group(function () {
     // Guardar cliente
     Route::post('/', function (Request $request) {
         $validated = $request->validate([
-            'nombre' => 'required|string|max:250',
-            'apellido' => 'required|string|max:250',
-            'dni' => 'required|string|max:250',
-            'fechanacimiento' => 'required|date',
-            'rela_provincia' => 'required|integer|exists:provincias,id_provincia',
-            'localidad' => 'required|string|max:250',
-            'direccion' => 'required|string|max:250',
-            'cuit' => 'required|string|max:250',
-            'email' => 'required|email|max:250',
-            'telefono' => 'required|string|max:250',
-            'rela_condicioniva' => 'required|integer|exists:condicion,id_condicioniva',
+            'nombre' => ['required', 'regex:/^[\pL\s]+$/u', 'max:250'],
+            'apellido' => ['required', 'regex:/^[\pL\s]+$/u', 'max:250'],
+            'dni' => ['required', 'digits_between:7,8'],
+            'fechanacimiento' => ['required', 'date'],
+            'rela_provincia' => ['required', 'integer', 'exists:provincias,id_provincia'],
+            'localidad' => ['required', 'regex:/^[\pL\s]+$/u', 'max:250'],
+            'direccion' => ['required', 'string', 'max:250'],
+            'cuit' => ['required', 'digits:11'],
+            'email' => ['required', 'email', 'max:250'],
+            'telefono' => ['required', 'regex:/^\d{10,13}$/'],
+            'rela_condicioniva' => ['required', 'integer', 'exists:condicion,id_condicioniva'],
         ]);
 
         DB::table('clientes')->insert($validated);
@@ -59,20 +59,20 @@ Route::prefix('clientes')->name('clientes.')->group(function () {
     // Actualizar cliente
     Route::put('/{id}', function (Request $request, $id) {
         $validated = $request->validate([
-            'nombre' => 'required|string|max:250',
-            'apellido' => 'required|string|max:250',
-            'dni' => 'required|string|max:250',
-            'fechanacimiento' => 'required|date',
-            'rela_provincia' => 'required|integer|exists:provincias,id_provincia',
-            'localidad' => 'required|string|max:250',
-            'direccion' => 'required|string|max:250',
-            'cuit' => 'required|string|max:250',
-            'email' => 'required|email|max:250',
-            'telefono' => 'required|string|max:250',
-            'rela_condicioniva' => 'required|integer|exists:condicion,id_condicioniva',
+            'nombre' => ['required', 'regex:/^[\pL\s]+$/u', 'max:250'],
+            'apellido' => ['required', 'regex:/^[\pL\s]+$/u', 'max:250'],
+            'dni' => ['required', 'digits_between:7,8'],
+            'fechanacimiento' => ['required', 'date'],
+            'rela_provincia' => ['required', 'integer', 'exists:provincias,id_provincia'],
+            'localidad' => ['required', 'regex:/^[\pL\s]+$/u', 'max:250'],
+            'direccion' => ['required', 'string', 'max:250'],
+            'cuit' => ['required', 'digits:11'],
+            'email' => ['required', 'email', 'max:250'],
+            'telefono' => ['required', 'regex:/^\d{10,13}$/'],
+            'rela_condicioniva' => ['required', 'integer', 'exists:condicion,id_condicioniva'],
         ]);
 
-        $updated = DB::table('clientes')->where('id_clientes', $id)->update($validated);
+        DB::table('clientes')->where('id_clientes', $id)->update($validated);
 
         return redirect()->route('clientes.index')->with('success', 'Cliente actualizado correctamente.');
     })->name('update');

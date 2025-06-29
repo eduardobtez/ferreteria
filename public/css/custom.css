@@ -1,6 +1,7 @@
 /* Fuente y estructura base */
 body {
-    font-family: 'Rubik', sans-serif;
+    font-family: "Rubik", sans-serif;
+    font-size: 13px;
     min-height: 100vh;
     display: flex;
     overflow-x: hidden;
@@ -9,20 +10,20 @@ body {
 
 /* Modo oscuro por defecto */
 body.dark-mode {
-    background-color: #121212;
-    color: #e0e0e0;
+    background-color: #ffffff;
+    color: #000000;
 }
 
 /* Modo claro */
 body.light-mode {
-    background-color: #f8f9fa;
-    color: #212529;
+    background-color: #5e5e5e;
+    color: #ffffff;
 }
 
 /* Sidebar */
 #sidebar {
-    width: 220px;
-    background-color: #1f1f1f;
+    width: 150px;
+    background-color: #000000;
     min-height: 100vh;
     padding-top: 1rem;
     position: fixed;
@@ -30,31 +31,32 @@ body.light-mode {
 }
 
 body.light-mode #sidebar {
-    background-color: #e9ecef;
+    background-color: #000000;
 }
 
 #sidebar .nav-link {
-    color: #cfcfcf;
+    color: #ffffff;
 }
 
+
 body.light-mode #sidebar .nav-link {
-    color: #212529;
+    color: #ffffff;
 }
 
 #sidebar .nav-link.active {
-    background-color: #3a3a3a;
-    color: #fff;
-    font-weight: 600;
+    background-color: #ece4e4;
+    color: #000000;
+    font-weight: 100px;
 }
 
 body.light-mode #sidebar .nav-link.active {
-    background-color: #dee2e6;
+    background-color: #ece4e4;
     color: #000;
 }
 
 #sidebar .nav-link:hover {
-    background-color: #333333;
-    color: white;
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
 }
 
 body.light-mode #sidebar .nav-link:hover {
@@ -64,9 +66,149 @@ body.light-mode #sidebar .nav-link:hover {
 
 /* Contenido principal */
 #content {
-    margin-left: 220px;
+    margin-left: 150px;
     padding: 2rem;
     width: 100%;
+}
+
+/*Bonotes de navegación*/
+
+.btn-new-primary{
+    font-size: 16px;
+    font-weight: 600;
+    background-color: #a8aaac;
+    color: #fff;
+    width: 200px;
+    height: 38px;
+    margin-top: 20px;
+}
+
+.btn-new-primary:hover{
+    background-color: #000000;
+    color: #ffffff;
+}
+
+.btn-danger{
+    background-color: #dbdbdb;
+    color: #000000;
+    font-size: 14px;
+    border: none;
+    margin-top: 5px;
+    height: 30px;
+    width: 30px;
+}
+
+.btn-warning{
+    background-color: #dbdbdb;
+    color: #000000;
+    font-size: 14px;
+    border: none;
+    margin-top: 5px;
+    padding: 8px;
+    height: 30px;
+    width: 30px;
+}
+
+.btn-success{
+    background-color: #000000;
+    color: #ffffff;
+    font-size: 14px;
+    border: none;
+    margin-top: 5px;
+    height: 35px;
+    width: 90px;
+}
+
+.btn-secondary{
+    background-color: #000000;
+    color: #ffffff;
+    font-size: 14px;
+    border: none;
+    margin-top: 5px;
+    height: 35px;
+    width: 90px;
+}
+
+.btn-secondary:hover{
+    background-color: #f37f20;
+    color: #ffffff;
+}
+
+/*agrupación de botones en los form*/
+.btn-group-custom {
+    display: flex;
+    gap: 8px; 
+    align-items: center;
+}
+
+/* Tabla general: más compacta y limpia */
+.custom-table {
+    font-size: 12px; /* Letra más chica */
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+/* Encabezado de la tabla */
+.custom-table thead {
+   background-color: #000000;
+    color: #ffffff;
+    text-align: center;
+    
+}
+
+.custom-table thead th {
+    font-weight: 500;
+    padding: 6px;
+    margin-right: 200px;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+/* Cuerpo de la tabla */
+.custom-table tbody tr {
+    background-color: #dbdbdb;
+    color: #000;
+    transition: background-color 0.2s ease;
+}
+
+.custom-table tbody tr:hover {
+    background-color: #ece4e4 !important; /* Color al pasar el mouse */
+}
+
+.custom-table td, .table th {
+    vertical-align: middle !important;
+    text-align: center;
+    width: 150px;
+}
+
+/* Contenedor de formularios en grid */
+form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+    max-width: 1000px;
+    margin: 2rem auto;
+}
+
+/* Asegura que cada campo ocupe solo una celda */
+form .mb-3 {
+    margin-bottom: 0;
+}
+
+/* Ajuste fino de inputs y selects */
+form .form-control,
+form .form-select {
+    font-size: 12px;
+    padding: 0.5rem 0.75rem;
+    height: auto;
+    background-color: #ced4da;
+}
+
+/* Encabezado del formulario */
+h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
 }
 
 /* Scrollbar minimalista */
@@ -75,7 +217,7 @@ body.light-mode #sidebar .nav-link:hover {
     height: 6px;
 }
 ::-webkit-scrollbar-track {
-    background: #1f1f1f;
+    background: #911818;
 }
 ::-webkit-scrollbar-thumb {
     background: #555;
@@ -87,7 +229,7 @@ body.light-mode #sidebar .nav-link:hover {
     position: fixed;
     top: 1rem;
     right: 1rem;
-    z-index: 1000;
+    z-index: 1200;
     background: transparent;
     border: none;
     font-size: 1.4rem;
@@ -103,4 +245,5 @@ body.light-mode #sidebar .nav-link:hover {
 #theme-toggle i {
     transition: opacity 0.3s ease;
 }
+
 

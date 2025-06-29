@@ -10,7 +10,7 @@
 
     <div class="mb-3">
         <label for="nombre" class="form-label">Nombre *</label>
-        <input type="text" id="nombre" name="nombre" value="{{ old('nombre') }}" class="form-control @error('nombre') is-invalid @enderror" required maxlength="250">
+        <input type="text" id="nombre" name="nombre" pattern="^[\pL\s]+$" title="Solo letras y espacios" value="{{ old('nombre') }}" class="form-control @error('nombre') is-invalid @enderror" required maxlength="250">
         @error('nombre')
         <div class="invalid-feedback">{{ $message }}</div>
         @enderror
@@ -18,7 +18,7 @@
 
     <div class="mb-3">
         <label for="apellido" class="form-label">Apellido *</label>
-        <input type="text" id="apellido" name="apellido" value="{{ old('apellido') }}" class="form-control @error('apellido') is-invalid @enderror" required maxlength="250">
+        <input type="text" id="apellido" name="apellido" pattern="^[\pL\s]+$" title="Solo letras y espacios" value="{{ old('apellido') }}" class="form-control @error('apellido') is-invalid @enderror" required maxlength="250">
         @error('apellido')
         <div class="invalid-feedback">{{ $message }}</div>
         @enderror
@@ -26,7 +26,7 @@
 
     <div class="mb-3">
         <label for="dni" class="form-label">DNI *</label>
-        <input type="text" id="dni" name="dni" value="{{ old('dni') }}" class="form-control @error('dni') is-invalid @enderror" required maxlength="250">
+        <input type="text" id="dni" name="dni" pattern="^\d{7,8}$" title="Solo números (7 u 8 dígitos)" value="{{ old('dni') }}" class="form-control @error('dni') is-invalid @enderror" required>
         @error('dni')
         <div class="invalid-feedback">{{ $message }}</div>
         @enderror
@@ -57,7 +57,7 @@
 
     <div class="mb-3">
         <label for="localidad" class="form-label">Localidad *</label>
-        <input type="text" id="localidad" name="localidad" value="{{ old('localidad') }}" class="form-control @error('localidad') is-invalid @enderror" required maxlength="250">
+        <input type="text" id="localidad" name="localidad" pattern="^[\pL\s]+$" title="Solo letras y espacios" value="{{ old('localidad') }}" class="form-control @error('localidad') is-invalid @enderror" required maxlength="250">
         @error('localidad')
         <div class="invalid-feedback">{{ $message }}</div>
         @enderror
@@ -73,7 +73,7 @@
 
     <div class="mb-3">
         <label for="cuit" class="form-label">CUIT *</label>
-        <input type="text" id="cuit" name="cuit" value="{{ old('cuit') }}" class="form-control @error('cuit') is-invalid @enderror" required maxlength="250">
+        <input type="text" id="cuit" name="cuit" pattern="^\d{11}$" title="CUIT debe contener 11 dígitos" value="{{ old('cuit') }}" class="form-control @error('cuit') is-invalid @enderror" required>
         @error('cuit')
         <div class="invalid-feedback">{{ $message }}</div>
         @enderror
@@ -89,7 +89,7 @@
 
     <div class="mb-3">
         <label for="telefono" class="form-label">Teléfono *</label>
-        <input type="text" id="telefono" name="telefono" value="{{ old('telefono') }}" class="form-control @error('telefono') is-invalid @enderror" required maxlength="250">
+        <input type="text" id="telefono" name="telefono" pattern="^\d{10,13}$" title="Solo números (de 10 a 13 dígitos)" value="{{ old('telefono') }}" class="form-control @error('telefono') is-invalid @enderror" required>
         @error('telefono')
         <div class="invalid-feedback">{{ $message }}</div>
         @enderror
@@ -108,9 +108,11 @@
         @error('rela_condicioniva')
         <div class="invalid-feedback">{{ $message }}</div>
         @enderror
-    </div>
+    </div><br>
 
-    <button type="submit" class="btn btn-success">Guardar</button>
-    <a href="{{ route('clientes.index') }}" class="btn btn-secondary">Cancelar</a>
+    <div class="btn-group-custom">
+        <button type="submit" class="btn btn-success">Guardar</button>
+        <a href="{{ route('clientes.index') }}" class="btn btn-secondary">Cancelar</a>
+    </div>
 </form>
 @endsection

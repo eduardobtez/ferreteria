@@ -100,9 +100,11 @@
         @error('cantidad_minima')
         <div class="invalid-feedback">{{ $message }}</div>
         @enderror
-    </div>
+    </div><br>
 
-    <button type="submit" class="btn btn-primary">Actualizar</button>
+    <div class="btn-group-custom">
+    <button type="submit" class="btn btn-success">Actualizar</button>
     <a href="{{ route('productos.index') }}" class="btn btn-secondary">Cancelar</a>
+</div>
 </form>
 @endsection

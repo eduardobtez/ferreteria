@@ -10,7 +10,17 @@
 
     <div class="mb-3">
         <label for="descripcion" class="form-label">Descripción *</label>
-        <input type="text" id="descripcion" name="descripcion" value="{{ old('descripcion') }}" class="form-control @error('descripcion') is-invalid @enderror" required maxlength="250">
+        <input
+            type="text"
+            id="descripcion"
+            name="descripcion"
+            value="{{ old('descripcion') }}"
+            class="form-control @error('descripcion') is-invalid @enderror"
+            required
+            maxlength="250"
+            pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$"
+            title="Solo se permiten letras y espacios"
+        >
         @error('descripcion')
         <div class="invalid-feedback">{{ $message }}</div>
         @enderror
@@ -18,7 +28,17 @@
 
     <div class="mb-3">
         <label for="abreviatura" class="form-label">Abreviatura *</label>
-        <input type="text" id="abreviatura" name="abreviatura" value="{{ old('abreviatura') }}" class="form-control @error('abreviatura') is-invalid @enderror" required maxlength="10">
+        <input
+            type="text"
+            id="abreviatura"
+            name="abreviatura"
+            value="{{ old('abreviatura') }}"
+            class="form-control @error('abreviatura') is-invalid @enderror"
+            required
+            maxlength="10"
+            pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9³°/%\s]+$"
+            title="Puede contener letras, números y símbolos como °, %, ³"
+        >
         @error('abreviatura')
         <div class="invalid-feedback">{{ $message }}</div>
         @enderror
@@ -36,7 +56,9 @@
         @enderror
     </div>
 
-    <button type="submit" class="btn btn-success">Guardar</button>
-    <a href="{{ route('medidas.index') }}" class="btn btn-secondary">Cancelar</a>
+    <div class="btn-group-custom">
+        <button type="submit" class="btn btn-success">Guardar</button>
+        <a href="{{ route('medidas.index') }}" class="btn btn-secondary">Cancelar</a>
+    </div>
 </form>
 @endsection
